@@ -13,6 +13,11 @@
   height: 100%;
 }
 
+.app.darkMode{
+  background-color: var(--dark-mode-bg);
+  color: white;
+}
+
 .app_body{
   margin: 15px auto 0;
   padding: 15px;
@@ -23,6 +28,11 @@
   padding: 15px;
   background-color: #fff;
   box-shadow: var(--box-shadow);
+}
+
+.header.darkMode{
+  background-color: var(--dark-mode-elements);
+  color: white;
 }
 
 .header_container{
@@ -67,6 +77,16 @@
   font: 18px;
 }
 
+.search_input.darkMode {
+  background-color: var(--dark-mode-elements);
+  color: white;
+}
+
+.search_input.darkMode input {
+  color: white;
+  
+}
+
 .select_region{
   width: 300px;
   background-color: white;
@@ -81,6 +101,24 @@
   background-color: transparent;
   border: none;
   outline: none;
+}
+
+.select_region.darkMode{
+  background-color: var(--dark-mode-elements);
+  color: white;
+}
+
+.select_region.darkMode select{
+  color: white;
+}
+
+.select_region.darkMode option{
+  background-color: var(--dark-mode-elements);
+  color: white;
+}
+
+.search_input.darkMode input::placeholder{
+  color: white;
 }
 
 .countries{
@@ -102,6 +140,11 @@
   cursor: pointer;
 }
 
+.country.darkMode{
+  background-color: var(--dark-mode-elements);
+  color: white;
+}
+
 .country .flag_container{
   height: 170px;
   width: 100%;
@@ -119,6 +162,11 @@
 
 .country .values{
   color: gray;
+}
+
+.country .values.darkMode {
+  color: lightgray;
+  
 }
 
 .country .details{
@@ -152,6 +200,11 @@
   cursor: pointer;
 }
 
+.back.darkMode{
+  background-color: var(--dark-mode-elements);
+  color: white;
+}
+
 .country_details_body{
   margin: 15px auto 0;
   padding: 15px;
@@ -175,6 +228,10 @@
   flex: 0.5;
 }
 
+.info.darkMode {
+  color: white;
+}
+
 .info_container{
   display: flex;
   justify-content: space-between;
@@ -190,6 +247,10 @@
   color: gray;
 }
 
+.info .values.darkMode{
+  color: lightgray;
+}
+
 .border_country{
   padding: 5px 10px;
   background-color: #fff;
@@ -197,4 +258,45 @@
   margin: 10px;
   cursor: pointer;
   box-shadow: var(--box-shadow);
+}
+
+.border_country.darkMode{
+  background-color: var(--dark-mode-elements);
+  color: white;
+}
+
+@media (max-width: 800px){
+  .country_details_body{
+    flex-direction: column;
+  }
+
+  .info_container{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .left_info{
+    margin-bottom: 20px;
+  }
+}
+
+@media(max-width: 720px){
+  .inputs{
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+  .search_input{
+    margin-bottom: 20px;
+  }
+
+  .switch_mode{
+    font-size: 12px;
+    flex: 0.5;
+    justify-content: flex-end;
+  }
+
+  .logo{
+    flex: 0.5;
+    font-size: 17px;
+  }
 }
