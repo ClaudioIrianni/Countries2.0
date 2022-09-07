@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import "./app.css";
 import Header from "./components/Header";
@@ -8,17 +8,93 @@ import CountryDetails from "./components/CountryDetails";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
-  //CSS
+  //Toggle darkmode
   const [darkMode, setDarkMode] = useState(false);
-  
+  //Fetch data
+  const [countries, setCountries] = useState([]);
+  //No Countrie Found if 404 status
+  const noCountries = countries.status || countries.message;
+  //Search Country
+  const countriesInputRef = useRef();
+  const regionRef = useRef();
 
+  //Toggle darkmode
   const switchMode = () => {
     setDarkMode((prevState) => !prevState);
-  }
+  };
+
+  //fetch data with try/catch
+  useEffect(() => {
+    try {
+      fetchData();
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+  const fetchData = async () => {
+    const response = await fetch("https://restcountries.com/v2/all");
+    const data = await response.json();
+
+    if (data.status === 404) {
+      setCountries([]);
+      return;
+    }
+
+    setCountries(data);
+  };
+
+  const searchCountries = () => {
+    const searchValue = countriesInputRef.current.value;
+    if (searchValue.trim()) {
+      const fetchSearch = async () => {
+        const response = await fetch(
+          `https://restcountries.com/v2/name/${searchValue}`
+        );
+        const data = await response.json();
+        setCountries(data);
+      };
+      try {
+        fetchSearch();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      fetchData();
+    }
+  };
+
+  const selectRegion = () => {
+    const selectValue = regionRef.current.value;
+
+    if (selectValue.trim()) {
+      const fetchSelect = async () => {
+        const response = await fetch(
+          `https://restcountries.com/v2/region/${selectValue}`
+        );
+        const data = await response.json();
+
+        if (selectValue === "All") {
+          try {
+            fetchData();
+          } catch (error) {
+            console.log(error);
+          }
+          return;
+        }
+        setCountries(data);
+      };
+
+      try {
+        fetchSelect();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   return (
-    <div className={`app ${darkMode ? 'darkMode' : ''}`}>
-      <Header onClick={switchMode} darkMode={darkMode}/>
+    <div className={`app ${darkMode ? "darkMode" : ""}`}>
+      <Header onClick={switchMode} darkMode={darkMode} />
 
       <Routes>
         <Route
@@ -26,15 +102,20 @@ function App() {
           element={
             <div className="app_body">
               <div className="inputs">
-                <div className={`search_input ${darkMode ? 'darkMode' : ''}`}>
+                <div className={`search_input ${darkMode ? "darkMode" : ""}`}>
                   <SearchIcon />
-                  <input type="text" placeholder="Search for a country..." />
+                  <input
+                    type="text"
+                    placeholder="Search for a country..."
+                    ref={countriesInputRef}
+                    onChange={searchCountries}
+                  />
                 </div>
-                <div className={`select_region ${darkMode ? 'darkMode' : ''}`}>
-                  <select>
+                <div className={`select_region ${darkMode ? "darkMode" : ""}`}>
+                  <select ref={regionRef} onChange={selectRegion}>
                     <option>All</option>
                     <option>Africa</option>
-                    <option>America</option>
+                    <option>Americas</option>
                     <option>Asia</option>
                     <option>Europe</option>
                     <option>Oceania</option>
@@ -42,12 +123,30 @@ function App() {
                 </div>
               </div>
               <div className="countries">
-                <Country darkMode={darkMode}/>
+                {!noCountries ? (
+                  countries.map((country) => (
+                    <Country
+                      darkMode={darkMode}
+                      key={country.alpha3code}
+                      code={country.alpha3code}
+                      name={country.name}
+                      capital={country.capital}
+                      population={country.population}
+                      region={country.region}
+                      flag={country.flag}
+                    />
+                  ))
+                ) : (
+                  <p>No countries found...</p>
+                )}
               </div>
             </div>
           }
         />
-        <Route path="country-details" element={<CountryDetails darkMode={darkMode}/>} />
+        <Route
+          path="country-details"
+          element={<CountryDetails darkMode={darkMode} />}
+        />
       </Routes>
     </div>
   );
