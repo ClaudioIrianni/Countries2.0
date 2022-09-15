@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-
+import { useNavigate } from "react-router-dom";
 import "./app.css";
 import Header from "./components/Header";
 import Country from "./components/Country";
@@ -17,6 +17,8 @@ function App() {
   //Search Country
   const countriesInputRef = useRef();
   const regionRef = useRef();
+  //Navigate to countryDetails
+  const navigate = useNavigate()
 
   //Toggle darkmode
   const switchMode = () => {
@@ -92,6 +94,11 @@ function App() {
     }
   };
 
+  
+  const showDetails = (code) => {
+    navigate(`/${code}`);
+  };
+
   return (
     <div className={`app ${darkMode ? "darkMode" : ""}`}>
       <Header onClick={switchMode} darkMode={darkMode} />
@@ -134,6 +141,7 @@ function App() {
                       population={country.population}
                       region={country.region}
                       flag={country.flag}
+                      showDetails={showDetails}
                     />
                   ))
                 ) : (
@@ -144,8 +152,8 @@ function App() {
           }
         />
         <Route
-          path="country-details"
-          element={<CountryDetails darkMode={darkMode} />}
+          path="/:countryCode"
+          element={<CountryDetails darkMode={darkMode} countries={countries}/>}
         />
       </Routes>
     </div>

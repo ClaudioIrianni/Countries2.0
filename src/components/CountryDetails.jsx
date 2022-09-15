@@ -1,43 +1,90 @@
 import React from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useParams, useNavigate } from "react-router";
 
-const CountryDetails = ({darkMode }) => {
+const CountryDetails = ({ darkMode, countries }) => {
+  const params = useParams();
+  const navigate = useNavigate();
+
+  /*goBack button*/
+  const goBack = () => {
+    navigate("/");
+  };
+
+  /*Get params from countries*/
+  let name;
+  let flagImg;
+  let nativeName;
+  let population;
+  let region;
+  let subregion;
+  let capital;
+  let topLevelDomain;
+  let currencies = [];
+  let languages = [];
+  let borders = [];
+
+  countries.forEach((country) => {
+    if (country.alpha3Code === params.countryCode) {
+      name = country.name;
+      flagImg = country.flagImg;
+      nativeName = country.nativeName;
+      population = country.population;
+      region = country.region;
+      subregion = country.subregion;
+      capital = country.capital;
+      topLevelDomain = country.topLevelDomain;
+
+      country.currencies.forEach((currency) => {
+        currencies.push(currency.name);
+      });
+
+      country.languages.forEach((languages) => {
+        languages.push(languages.name);
+      });
+
+      country.borders.forEach((border) => {
+        borders.push(border.name);
+      });
+    }
+  });
+
   return (
     <div className="country_details">
-      <button className={`back ${darkMode ? "darkMode" : ""}`}>
+      <button className={`back ${darkMode ? "darkMode" : ""}`} onClick={goBack}>
         <ArrowBackIcon />
         <p>Go Back</p>
       </button>
       <div className="country_details_body">
         <div className="img_container">
-          <img src="https://flagcdn.com/as.svg" alt="" />
+          <img src={flagImg} alt="flag" />
         </div>
         <div className="info">
-          <h2>Name</h2>
+          <h2>{name}</h2>
           <div className="info_container">
             <div className="left_info">
               <p>
                 Native Name:
                 <span className={`values ${darkMode ? "darkMode" : ""}`}>
-                  Test
+                  {nativeName}
                 </span>
               </p>
               <p>
                 Population:
                 <span className={`values ${darkMode ? "darkMode" : ""}`}>
-                  Test
+                  {population}
                 </span>
               </p>
               <p>
                 Region:
                 <span className={`values ${darkMode ? "darkMode" : ""}`}>
-                  Test
+                  {region}
                 </span>
               </p>
               <p>
                 Sub region:
                 <span className={`values ${darkMode ? "darkMode" : ""}`}>
-                  Test
+                  {subregion}
                 </span>
               </p>
             </div>
@@ -45,38 +92,38 @@ const CountryDetails = ({darkMode }) => {
               <p>
                 Capital:
                 <span className={`values ${darkMode ? "darkMode" : ""}`}>
-                  Test
+                  {capital}
                 </span>
               </p>
               <p>
                 Top-level Domain:
                 <span className={`values ${darkMode ? "darkMode" : ""}`}>
-                  Test
+                  {topLevelDomain}
                 </span>
               </p>
               <p>
                 Currencies:
                 <span className={`values ${darkMode ? "darkMode" : ""}`}>
-                  Test
+                  {currencies}
                 </span>
               </p>
               <p>
                 Languages:
                 <span className={`values ${darkMode ? "darkMode" : ""}`}>
-                  Test
+                  {languages}
                 </span>
               </p>
             </div>
           </div>
           Border Countries:
           <div className={`border_countries ${darkMode ? "darkMode" : ""}`}>
-            <p>Test</p>
+            <p>{borders}</p>
           </div>
           <div className={`border_countries ${darkMode ? "darkMode" : ""}`}>
-            <p>Test</p>
+            <p>{borders}</p>
           </div>
           <div className={`border_countries ${darkMode ? "darkMode" : ""}`}>
-            <p>Test</p>
+            <p>{borders}</p>
           </div>
         </div>
       </div>
