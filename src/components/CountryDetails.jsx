@@ -6,10 +6,6 @@ const CountryDetails = ({ darkMode, countries }) => {
   const params = useParams();
   const navigate = useNavigate();
 
-  /*goBack button*/
-  const goBack = () => {
-    navigate("/");
-  };
 
   /*Get params from countries*/
   let name;
@@ -40,7 +36,7 @@ const CountryDetails = ({ darkMode, countries }) => {
       });
 
       country.languages.forEach((languages) => {
-        languages.push(languages.name);
+        languages.push(language.name);
       });
 
       country.borders.forEach((border) => {
@@ -48,6 +44,11 @@ const CountryDetails = ({ darkMode, countries }) => {
       });
     }
   });
+
+    /*goBack button*/
+    const goBack = () => {
+      navigate("/");
+    };
 
   return (
     <div className="country_details">

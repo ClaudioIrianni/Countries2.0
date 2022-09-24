@@ -1,6 +1,6 @@
 import React from "react";
 
-const Country = ({
+function Country({
   darkMode,
   name,
   capital,
@@ -9,7 +9,7 @@ const Country = ({
   flag,
   showDetails,
   code,
-}) => {
+}) {
   const showDetailsHandler = () => {
     showDetails(code);
   };
@@ -46,6 +46,6 @@ const Country = ({
       </div>
     </div>
   );
-};
+}
 
 export default Country;

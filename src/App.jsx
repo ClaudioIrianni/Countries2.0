@@ -134,8 +134,8 @@ function App() {
                   countries.map((country) => (
                     <Country
                       darkMode={darkMode}
-                      key={country.alpha3code}
-                      code={country.alpha3code}
+                      key={country.alpha3Code}
+                      code={country.alpha3Code}
                       name={country.name}
                       capital={country.capital}
                       population={country.population}
