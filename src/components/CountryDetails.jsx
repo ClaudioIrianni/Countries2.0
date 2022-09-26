@@ -2,10 +2,10 @@ import React from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useParams, useNavigate } from "react-router";
 
+
 const CountryDetails = ({ darkMode, countries }) => {
   const params = useParams();
   const navigate = useNavigate();
-
 
   /*Get params from countries*/
   let name;
@@ -23,7 +23,7 @@ const CountryDetails = ({ darkMode, countries }) => {
   countries.forEach((country) => {
     if (country.alpha3Code === params.countryCode) {
       name = country.name;
-      flagImg = country.flagImg;
+      flagImg = country.flag;
       nativeName = country.nativeName;
       population = country.population;
       region = country.region;
@@ -31,24 +31,24 @@ const CountryDetails = ({ darkMode, countries }) => {
       capital = country.capital;
       topLevelDomain = country.topLevelDomain;
 
-      country.currencies.forEach((currency) => {
+      country.currencies?.forEach((currency) => {
         currencies.push(currency.name);
       });
 
-      country.languages.forEach((languages) => {
+      country.languages?.forEach((language) => {
         languages.push(language.name);
       });
 
-      country.borders.forEach((border) => {
+      country.borders?.map((border) => {
         borders.push(border.name);
       });
     }
   });
 
-    /*goBack button*/
-    const goBack = () => {
-      navigate("/");
-    };
+  /*goBack button*/
+  const goBack = () => {
+    navigate("/");
+  };
 
   return (
     <div className="country_details">
@@ -117,15 +117,17 @@ const CountryDetails = ({ darkMode, countries }) => {
             </div>
           </div>
           Border Countries:
-          <div className={`border_countries ${darkMode ? "darkMode" : ""}`}>
-            <p>{borders}</p>
-          </div>
-          <div className={`border_countries ${darkMode ? "darkMode" : ""}`}>
-            <p>{borders}</p>
-          </div>
-          <div className={`border_countries ${darkMode ? "darkMode" : ""}`}>
-            <p>{borders}</p>
-          </div>
+          {borders.length ? (
+            borders.map(border => (
+              <div className={`border_country ${darkMode ? "darkMode" : ""}`}>
+                <p>{border}</p>
+              </div>
+            ))
+          ) : (
+            <div className={`values ${darkMode ? "darkMode" : ""}`}>
+              <p>No borders...</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
