@@ -40,7 +40,7 @@ const CountryDetails = ({ darkMode, countries }) => {
       });
 
       country.borders?.map((border) => {
-        borders.push(border.name);
+        borders.push(border);
       });
     }
   });
@@ -118,9 +118,16 @@ const CountryDetails = ({ darkMode, countries }) => {
           </div>
           Border Countries:
           {borders.length ? (
-            borders.map(border => (
-              <div className={`border_country ${darkMode ? "darkMode" : ""}`}>
-                <p>{border}</p>
+            borders.map((border) => (
+              <div 
+              key={border}
+              className={`border_country ${darkMode ? "darkMode" : ""}`}
+              onClick={() =>{
+              
+                navigate(`/${border}`)
+              }}
+              >
+                {border}
               </div>
             ))
           ) : (
