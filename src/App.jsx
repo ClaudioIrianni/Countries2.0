@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import "./app.css";
+import "./App.css";
 import Header from "./components/Header";
 import Country from "./components/Country";
 import SearchIcon from "@mui/icons-material/Search";
